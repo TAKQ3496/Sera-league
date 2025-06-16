@@ -1,0 +1,23 @@
+create table captains (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  points int default 1000
+);
+
+-- 참가자 테이블
+create table players (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  position text,
+  team_id uuid references captains(id),
+  price int
+);
+
+-- 입찰 기록 (실시간 입찰 추적)
+create table bids (
+  id uuid primary key default gen_random_uuid(),
+  player_id uuid references players(id),
+  captain_id uuid references captains(id),
+  amount int,
+  created_at timestamp default now()
+);
